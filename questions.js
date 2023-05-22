@@ -1,3 +1,5 @@
+//Imports npm package for MySQL & connection object
+//Imports all of the functions for the database from the other files
 const inquirer = require('inquirer');
 const { connection } = require('./assets/js/connection');
 const viewFunctions = require('./assets/js/view');
@@ -5,6 +7,7 @@ const addFunctions = require('./assets/js/add');
 const updateFunctions = require('./assets/js/update');
 const deleteFunctions = require('./assets/js/delete');
 
+//Uses inquirer to prompt a main menu to select which action to run
 function promptMainMenu() {
     return inquirer.prompt([
         {
@@ -31,10 +34,12 @@ function promptMainMenu() {
         },
     ])
     .then((answers) => {
+        //Runs the function that will handle the action chosen
         return handleMainMenuChoice(answers.action);
     });
 }
 
+//Uses switch statment to handle the various cases from the main menu
 function handleMainMenuChoice(choice) {
     switch (choice) {
         case 'View all departments':
@@ -74,5 +79,7 @@ function handleMainMenuChoice(choice) {
     }
 }
 
+//Runs the main menu function when application is started
 promptMainMenu();
+
 

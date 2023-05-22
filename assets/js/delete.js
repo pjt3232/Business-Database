@@ -1,6 +1,12 @@
+//Imports inquirer and the connection object for MySQL
 const inquirer = require('inquirer');
 const { connection } = require('./connection');
 
+//Function for deleting a department
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
+//Uses a query and inquirer prompt to delete the department chosen by the user
+//The .then(answers) creates null values for employee and role to add the deature to delete a department without deleteing the employee's or role itself
 function deleteDepartment() {
     return connection
         .promise()
@@ -11,6 +17,7 @@ function deleteDepartment() {
                     type: 'list',
                     name: 'department_id',
                     message: 'Select the department to delete:',
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: departments.map((department) => ({
                         name: department.name,
                         value: department.id,
@@ -44,6 +51,11 @@ function deleteDepartment() {
         });
 }
 
+//Function that deletes a role
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
+//Uses a query that deletes the role given its id
+
 function deleteRole() {
     return connection
         .promise()
@@ -54,6 +66,7 @@ function deleteRole() {
                     type: 'list',
                     name: 'role_id',
                     message: 'Select the role to delete:',
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: roles.map((role) => ({
                         name: role.title,
                         value: role.id,
@@ -71,6 +84,10 @@ function deleteRole() {
         });
 }
 
+//Function to delete an employee
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
+//Uses a query to delete an employee given the employee's id
 function deleteEmployee() {
     return connection
         .promise()
@@ -81,6 +98,7 @@ function deleteEmployee() {
                     type: 'list',
                     name: 'employee_id',
                     message: 'Select the employee to delete:',
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: employees.map((employee) => ({
                         name: `${employee.first_name} ${employee.last_name}`,
                         value: employee.id,
@@ -98,6 +116,7 @@ function deleteEmployee() {
         });
 }
 
+//Exports all the functions in this file to the main file
 module.exports = {
     deleteDepartment,
     deleteRole,

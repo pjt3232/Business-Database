@@ -1,6 +1,10 @@
+//Imports inquirer and the connection object for MySQL
 const inquirer = require('inquirer');
 const { connection } = require('./connection');
 
+//Function for updating an employee's role
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
 function updateEmployeeRole() {
     return connection
         .promise()
@@ -11,6 +15,7 @@ function updateEmployeeRole() {
                     type: 'list',
                     name: 'employee_id',
                     message: 'Select the employee to update:',
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: employees.map((employee) => ({
                         name: `${employee.first_name} ${employee.last_name}`,
                         value: employee.id,
@@ -20,6 +25,8 @@ function updateEmployeeRole() {
                     type: 'list',
                     name: 'role_id',
                     message: 'Select the new role for the employee:',
+                    //Uses promises and queries to display the choices given the database's data
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: () =>
                         connection
                             .promise()
@@ -46,6 +53,10 @@ function updateEmployeeRole() {
         });
 }
 
+
+//Function for updating an employee's manager
+//Uses a promise object to handle the asynchronous operation
+//Uses a query to update the the employee's manager at a set id
 function updateEmployeeManager() {
     let selectedEmployeeId;
 
@@ -58,6 +69,7 @@ function updateEmployeeManager() {
                     type: 'list',
                     name: 'employee_id',
                     message: 'Select the employee to update:',
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: employees.map((employee) => ({
                         name: `${employee.first_name} ${employee.last_name}`,
                         value: employee.id,
@@ -95,6 +107,10 @@ function updateEmployeeManager() {
         });
 }
 
+//Function that is used in updateEmployeeManager to grab all of the choices of employees that could be the manager
+//Uses a promise object to handle the asynchronous operation
+//Uses a query to show all the employees besides the one being updated
+//Creates an array of objects with map with a name property and a value property which is assigned
 function getManagerChoices(employeeId) {
     return connection
         .promise()
@@ -107,6 +123,7 @@ function getManagerChoices(employeeId) {
         );
 }
 
+//Exports all of the functions in this file to be used in the main file
 module.exports = {
     updateEmployeeRole,
     updateEmployeeManager,

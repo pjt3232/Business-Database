@@ -1,6 +1,10 @@
 const inquirer = require('inquirer');
 const { connection } = require('./connection');
 
+//Function for adding a new department
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
+//Uses a query to insert the data given into department
 function addDepartment() {
     return inquirer
     .prompt([
@@ -20,6 +24,10 @@ function addDepartment() {
     });
 }
 
+//Function for adding a new role
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
+//Uses a query to insert all criteria into the role database
 function addRole() {
     return connection
         .promise()
@@ -40,6 +48,7 @@ function addRole() {
                     type: 'list',
                     name: 'department_id',
                     message: 'Select the department for the role:',
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: departments.map((department) => ({
                         name: department.name,
                         value: department.id,
@@ -57,6 +66,10 @@ function addRole() {
         });
 }
 
+//Function for adding a new employee
+//Uses inquirer prompt and the user's answer to build database
+//Uses a promise object to handle the asynchronous operation
+//Uses a query to add all employee info into the employee database
 function addEmployee() {
     return connection
         .promise()
@@ -77,6 +90,7 @@ function addEmployee() {
                     type: 'list',
                     name: 'role_id',
                     message: "Select the employee's role:",
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: roles.map((role) => ({
                         name: role.title,
                         value: role.id,
@@ -86,6 +100,8 @@ function addEmployee() {
                     type: 'list',
                     name: 'manager_id',
                     message: "Select the employee's manager:",
+                    //Uses promises and queries to bring up the correct choices given the database's data
+                    //Creates an array of objects with a name property and a value property which is assigned
                     choices: () => 
                         connection
                             .promise()
@@ -109,6 +125,7 @@ function addEmployee() {
         });
 }
 
+//Exports all the functions in this file to be used in the main file
 module.exports = {
     addDepartment,
     addRole,
