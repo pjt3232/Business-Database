@@ -43,33 +43,89 @@ function promptMainMenu() {
 function handleMainMenuChoice(choice) {
     switch (choice) {
         case 'View all departments':
-            return viewFunctions.viewAllDepartments();
+            viewFunctions.viewAllDepartments()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'View all roles':
-            return viewFunctions.viewAllRoles();
+            viewFunctions.viewAllRoles()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'View all employees':
-            return viewFunctions.viewAllEmployees();
+            viewFunctions.viewAllEmployees()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Add a department':
-            return addFunctions.addDepartment();
+            addFunctions.addDepartment()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Add a role':
-            return addFunctions.addRole();
+            addFunctions.addRole()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Add an employee':
-            return addFunctions.addEmployee();
+            addFunctions.addEmployee()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Update an employee role':
-            return updateFunctions.updateEmployeeRole();
+            updateFunctions.updateEmployeeRole()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Update an employee manager':
-            return updateFunctions.updateEmployeeManager();
+            updateFunctions.updateEmployeeManager()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'View employees by manager':
-            return viewFunctions.viewEmployeesByManager();
+            viewFunctions.viewEmployeesByManager()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'View employees by department':
-            return viewFunctions.viewEmployeesByDepartment();
+            viewFunctions.viewEmployeesByDepartment()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Delete a department':
-            return deleteFunctions.deleteDepartment();
+            deleteFunctions.deleteDepartment()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Delete a role':
-            return deleteFunctions.deleteRole();
+            deleteFunctions.deleteRole()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Delete an employee':
-            return deleteFunctions.deleteEmployee();
+            deleteFunctions.deleteEmployee()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'View total utilized budget by a department':
-            return viewFunctions.viewUtilizedBudget();
+            viewFunctions.viewUtilizedBudget()
+                .then(() => {
+                    return promptMainMenu();
+                });
+            break;
         case 'Exit':
             connection.end();
             break;
