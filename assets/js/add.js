@@ -50,7 +50,7 @@ function addRole() {
         .then((answers) => {
             return connection
                 .promise()
-                .query(`INSERT INTO roles SET ?`, answers)
+                .query(`INSERT INTO role SET ?`, answers)
                 .then(() => {
                     console.log('Role added successfully!');
                 });

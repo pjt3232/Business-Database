@@ -19,12 +19,28 @@ function deleteDepartment() {
             ]);
         })
         .then((answers) => {
-            return connection
+            const departmentId = answers.department_id
+            const updateRolesPromise = connection
                 .promise()
-                .query(`DELETE FROM department WHERE id = ?`, [answers.department_id])
+                .query(`UPDATE role SET department_id = NULL WHERE department_id = ?`, [departmentId]);
+            const updateEmployeesPromise = connection
+                .promise()
+                .query(`
+                UPDATE employee
+                INNER JOIN role ON employee.role_id = role.id
+                SET employee.role_id = NULL
+                WHERE role.department_id = ?`, 
+                [departmentId]);
+
+            return Promise.all([updateRolesPromise, updateEmployeesPromise])
                 .then(() => {
-                    console.log('Department deleted successfully!');
+                    return connection
+                        .promise()
+                        .query(`DELETE FROM department WHERE id = ?`, answers.department_id);
                 });
+        })
+        .then(() => {
+            console.log('Department deleted successfully!');
         });
 }
 
