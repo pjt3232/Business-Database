@@ -27,13 +27,13 @@ function viewAllEmployees() {
         .promise()
         .query(`
         SELECT
-            employee.id,
-            employee.first_name,
-            employee.last_name,
-            role.title AS job_title,
-            department.name AS department,
-            role.salary,
-            CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+        employee.id,
+        employee.first_name,
+        employee.last_name,
+        role.title AS job_title,
+        department.name AS department,
+        role.salary,
+        CONCAT(manager.first_name, ' ', manager.last_name) AS manager
         FROM employee
         LEFT JOIN role ON emplyee.role_id = role.id
         LEFT JOIN department on role.department_id = department.id
@@ -84,10 +84,28 @@ function viewEmployeesByDepartment() {
         });
 }
 
+function viewUtilizedBudget () {
+    return connection
+        .promise()
+        .query(`
+        SELECT
+            department.name AS department,
+            SUM(role.salary) AS utilized_budget
+        FROM employee
+        INNER JOIN role ON employee.role_id = role.id
+        INNER JOIN department ON role.department_id = department.id
+        GROUP BY department.name
+        `)
+        .then(([rows]) => {
+            console.table(rows);
+        });
+}
+
 module.exports = {
     viewAllDepartments,
     viewAllRoles,
     viewAllEmployees,
     viewEmployeesByManager,
     viewEmployeesByDepartment,
+    viewUtilizedBudget,
 }
