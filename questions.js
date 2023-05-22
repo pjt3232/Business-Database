@@ -1,8 +1,9 @@
 const inquirer = require('inquirer');
 const { connection } = require('./assets/js/connection');
-const viewFunctions = require('./assets/js/view')
+const viewFunctions = require('./assets/js/view');
 const addFunctions = require('./assets/js/add');
-const updateFunctions = require('./assets/js/update')
+const updateFunctions = require('./assets/js/update');
+const deleteFunctions = require('./assets/js/delete');
 
 function promptMainMenu() {
     return inquirer.prompt([
