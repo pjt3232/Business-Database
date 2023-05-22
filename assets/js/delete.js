@@ -6,7 +6,7 @@ const { connection } = require('./connection');
 //Uses inquirer prompt and the user's answer to build database
 //Uses a promise object to handle the asynchronous operation
 //Uses a query and inquirer prompt to delete the department chosen by the user
-//The .then(answers) creates null values for employee and role to add the deature to delete a department without deleteing the employee's or role itself
+//The .then(answers) section creates null values for employee and role to add the deature to delete a department without deleteing the employee's or role
 function deleteDepartment() {
     return connection
         .promise()
@@ -26,10 +26,12 @@ function deleteDepartment() {
             ]);
         })
         .then((answers) => {
+            //Updates the associated role ids in the department to NULL 
             const departmentId = answers.department_id
             const updateRolesPromise = connection
                 .promise()
                 .query(`UPDATE role SET department_id = NULL WHERE department_id = ?`, [departmentId]);
+            //Updates the associated employee's role id that is included in the deleted department to NULL
             const updateEmployeesPromise = connection
                 .promise()
                 .query(`
@@ -39,6 +41,7 @@ function deleteDepartment() {
                 WHERE role.department_id = ?`, 
                 [departmentId]);
 
+            //Deletes the department using promises and a query that uses the answer from the prompt
             return Promise.all([updateRolesPromise, updateEmployeesPromise])
                 .then(() => {
                     return connection
@@ -55,7 +58,7 @@ function deleteDepartment() {
 //Uses inquirer prompt and the user's answer to build database
 //Uses a promise object to handle the asynchronous operation
 //Uses a query that deletes the role given its id
-
+//The .then(answers) section creates null values for employee to add the feature to delete a role without deleteing the employee
 function deleteRole() {
     return connection
         .promise()
@@ -75,12 +78,22 @@ function deleteRole() {
             ]);
         })
         .then((answers) => {
-            return connection
+            const roleId = answers.role_id;
+            //Update the associated employees' roles to null
+            const updateEmployeesPromise = connection
                 .promise()
-                .query(`DELETE FROM role WHERE id = ?`, [answers.role_id])
+                .query(`UPDATE employee SET role_id = NULL WHERE role_id = ?`, [roleId]);
+
+            //Deletes the role using promises and a query using the answer from the prompt
+            return Promise.all([updateEmployeesPromise])
                 .then(() => {
-                    console.log('Role deleted successfully!');
+                    return connection
+                        .promise()
+                        .query(`DELETE FROM role WHERE id = ?`, [answers.role_id]);    
                 });
+        })
+        .then(() => {
+            console.log('Role deleted successfully!');
         });
 }
 
