@@ -1,8 +1,8 @@
 {
-  "name": "business-database1",
+  "name": "business-database",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "questions.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
     "inquirer": "^8.2.4",
     "mysql2": "^3.3.1"
   }

@@ -1,4 +1,4 @@
-//Grabs the npm packager for MySQL
+//Grabs the npm packager for MySQL and the .env file
 const mysql = require('mysql2');
 
 //Creates a connection the MySQL database
