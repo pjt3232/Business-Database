@@ -71,10 +71,30 @@ function addRole() {
 //Uses a promise object to handle the asynchronous operation
 //Uses a query to add all employee info into the employee database
 function addEmployee() {
+    let roleChoices = [];
+    let managerChoices = [];
+
     return connection
         .promise()
         .query(`SELECT * FROM role`)
         .then(([roles]) => {
+            //Creates an array of objects with a name property and a value property which is assigned
+            roleChoices = roles.map((role) => ({
+                name: role.title,
+                value: role.id,
+            }));
+
+            return connection
+                .promise()
+                .query(`SELECT * FROM employee`);
+        })
+        .then(([employees]) => {
+            //Creates an array of objects with a name property and a value property which is assigned
+            managerChoices = employees.map((employee) => ({
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.id,
+            }));
+
             return inquirer.prompt([
                 {
                     type: 'input',
@@ -82,7 +102,7 @@ function addEmployee() {
                     message: "Enter the employee's first name:",
                 },
                 {
-                    input: 'input',
+                    type: 'input',
                     name: 'last_name',
                     message: "Enter the employee's last name:",
                 },
@@ -90,35 +110,29 @@ function addEmployee() {
                     type: 'list',
                     name: 'role_id',
                     message: "Select the employee's role:",
-                    //Creates an array of objects with a name property and a value property which is assigned
-                    choices: roles.map((role) => ({
-                        name: role.title,
-                        value: role.id,
-                    })),
+                    //checks if the array of role choices is greater than 0 or sets the name of the choice to no roles available and the value to null
+                    choices: roleChoices.length > 0 
+                    ? roleChoices : [{ name: 'No roles available', value: null}],
                 },
                 {
                     type: 'list',
                     name: 'manager_id',
                     message: "Select the employee's manager:",
-                    //Uses promises and queries to bring up the correct choices given the database's data
-                    //Creates an array of objects with a name property and a value property which is assigned
-                    choices: () => 
-                        connection
-                            .promise()
-                            .query(`SELECT * FROM employee`)
-                            .then(([employees]) => 
-                                employees.map((employee) => ({
-                                    name: `${employee.first_name} ${employee.last_name}`,
-                                    value: employee.id,
-                                }))
-                            ),
+                    //checks if the array of manager choices is greater than 0 or sets the name of the choice to no manager available and the value to null
+                    choices: managerChoices.length > 0 
+                    ? managerChoices : [{ name: 'No managers available', value: null}],
                 },
             ]);
         })
         .then((answers) => {
-            return connection
+            //assigns the answers from the prompt to a single answers variable
+            const { first_name, last_name, role_id, manager_id } = answers;
+
+            return connection 
                 .promise()
-                .query(`INSERT INTO employee SET ?`, answers)
+                .query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`,
+                [first_name, last_name, role_id, manager_id]
+                )
                 .then(() => {
                     console.log('Employee added successfully!');
                 });
