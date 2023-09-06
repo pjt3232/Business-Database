@@ -1,5 +1,7 @@
 # Business Database
 
+[![Business-Database-Screenshot.png](https://i.postimg.cc/jjL1mwgM/Business-Database-Screenshot.png)](https://postimg.cc/NyvbrMwX)
+
 ## Description
 The Business Database application is a command-line application that allows users to manage employees, departments, and roles in a company. It provides functionalities such as viewing employees by department or manager, adding employees, updating employee roles and manager, deleting departments, roles, and employees, and viewing the total utilized budget by department. My motivation for this project was to become a better developer with back-end applications for a future in the web development field. I built this project to work on new topics I had just learned in my UW-Madison Bootcamp. The topics I was able to work on and use for the first time was using MySQL, using CRUD queries to build out a database, asychronous promises, .then() statements inside promises, and one that was stressed used throughout the entire application was using queries and inquirer prompts to build out a MySQL database based on various criteria. This app solves the problem of needing to build out an entire database for your business especially if you need to update it frequently and view your database based off certain criteria. 
 
@@ -41,7 +43,7 @@ To use the Business Database, follow these steps:
 
 For a detailed demonstration of how to use the Business Database, you can watch the [demo video](./assets/video/Business-Database-Screen-Recording.mov)
 
-# Questions
+## Questions
 If you have any questions or need further assitance, feel free to reach out:
 
 - GitHub [pjt3232](https://github.com/pjt3232)
